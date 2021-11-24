@@ -1,0 +1,122 @@
+<html>
+  <head>
+    <style>
+     body {
+       background: #e2e1e0;
+       text-align: center;
+       font-family: arial;
+       padding: 10px;
+       font-size: 1.4em;
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+       align-items: center;
+     }
+     div#content-parent-00 {
+       width: 500px;
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+       align-items: center;
+       border: 1px solid #ddd;
+       padding: 30px 0 30px 0;
+       border-radius: 5px;
+     }
+     .card00 {
+       background: #fff;
+     }
+     div#valYenParent00 {
+       width: 180px;
+     }
+     input#valYen,
+     input#rateUSDYen {
+       text-align:center;
+     }
+     select#unit {
+       padding: 5px;
+       margin: 0 5px 0 5px;
+       border-color: #ddd;
+       border-radius: 3px;
+     }
+     div#convertedResult {
+       font-weight: bold;
+       margin: 10px;
+       padding: 15px;
+       border: 1px dotted #aaa;
+       border-radius: 5px;
+     }
+     div#convertedResult-00 {
+       font-size: 1.8em;
+       display: flex;
+       flex-direction: row;
+       justify-content: center;
+       align-items: center;
+     }
+     .error00 {
+       color: #bbb
+     }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  </head>
+  <body>
+
+    <div id="content-parent-00" class="card00">
+      <div>
+        <div id="valYenParent00" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input id="valYen" class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" value="20000">
+          <label class="mdl-textfield__label" for="valYen"><span class="material-icons">currency_yen</span></label>
+          <span class="mdl-textfield__error">Input is not a number!</span>
+        </div>
+
+        <select id="unit">
+          <option value="1000000">百万 (x1000,000)</option>
+        </select>円
+      </div>
+
+      <div>
+        <div id="valYenParent00" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input id="rateUSDYen" class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" value="115">
+          <label class="mdl-textfield__label" for="rateUSDYen">JPY/USD</label>
+          <span class="mdl-textfield__error">Input is not a number!</span>
+        </div>
+        円
+      </div>
+
+      <div id="convertedResult-00">
+        <div id="convertedResult"></div>
+      </div>
+    </div>
+
+    <script>
+     const convertY2x = (valYen = 0, rate = 115) => {
+       return valYen / rate
+     }
+     //document.querySelector('button#convert').addEventListener('mousedown', () => {
+     const calcValue = () => {
+       const valYen = Number(document.querySelector('input#valYen').value)
+       const unit = Number(document.querySelector('select').value)
+       const rateYUSD = Number(document.querySelector('input#rateUSDYen').value)
+       const converted = document.querySelector('div#convertedResult')
+       if (isNaN(valYen) || isNaN(unit) || isNaN(rateYUSD)) {
+         converted.innerHTML = `(Error)`
+         converted.classList.add('error00')
+       } else {
+         converted.classList.remove('error00')
+         const valConv = Math.round(100*(convertY2x(valYen*unit, rateYUSD)/1000000))/100
+         converted.innerHTML = `$ ${valConv} million`
+       }
+     }
+     document.querySelector('input#valYen').addEventListener('input', () => {
+       calcValue()
+     })
+     document.querySelector('input#rateUSDYen').addEventListener('input', () => {
+       calcValue()
+     })
+
+     // initialize
+     calcValue()
+    </script>
+  </body>
+</html>
