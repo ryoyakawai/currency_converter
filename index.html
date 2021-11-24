@@ -105,7 +105,7 @@
        } else {
          converted.classList.remove('error00')
          const valConv = Math.round(100*(convertY2x(valYen*unit, rateYUSD)/1000000))/100
-         converted.innerHTML = `$ ${valConv} million`
+         converted.innerHTML = `$ ${valConv.toFixed(2)} million`
        }
      }
      document.querySelector('input#valYen').addEventListener('input', () => {
