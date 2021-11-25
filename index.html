@@ -1,7 +1,7 @@
 <!DOCTYPE html>
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <style>
      body {
        background: #e2e1e0;
@@ -69,6 +69,17 @@
      .error00 {
        color: #bbb
      }
+     .footer {
+       color: #888;
+       text-shadow: 1px 1px 1px #fff;
+       bottom: 0;
+       font-size: smaller;
+       padding: 0.1rem 1rem;
+       text-align: center;
+       position: sticky;
+     }
+
+     }
     </style>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
@@ -76,47 +87,49 @@
   </head>
   <body>
 
-    <div id="content-parent-00" class="card00">
-      <div>
-        <div id="valYenParent00" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input id="valYen" class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" value="20000">
-          <label class="mdl-textfield__label" for="valYen"><span class="material-icons">currency_yen</span></label>
-          <span class="mdl-textfield__error">Input is not a number!</span>
+    <article>
+      <div id="content-parent-00" class="card00">
+        <div>
+          <div id="valYenParent00" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input id="valYen" class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" value="20000">
+            <label class="mdl-textfield__label" for="valYen"><span class="material-icons">currency_yen</span></label>
+            <span class="mdl-textfield__error">Input is not a number!</span>
+          </div>
+
+          <select id="unit">
+            <option value="1000000">百万 (x1000,000)</option>
+          </select>円
         </div>
 
-        <select id="unit">
-          <option value="1000000">百万 (x1000,000)</option>
-        </select>円
-      </div>
+        <!-- USD -->
+        <div id="convertedResult-00">
+          <div id="convertedResult-usd"></div>
 
-      <!-- USD -->
-      <div id="convertedResult-00">
-        <div id="convertedResult-usd"></div>
+          <div>
+            <div id="valYenParent01" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input id="rateUSDYen" class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" value="115">
+              <label class="mdl-textfield__label" for="rateUSDYen">JPY/USD</label>
+              <span class="mdl-textfield__error">Input is not a number!</span>
+            </div>
+          </div>
+        </div>
 
-        <div>
-          <div id="valYenParent01" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input id="rateUSDYen" class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" value="115">
-            <label class="mdl-textfield__label" for="rateUSDYen">JPY/USD</label>
-            <span class="mdl-textfield__error">Input is not a number!</span>
+        <!-- EUR -->
+        <div id="convertedResult-00">
+          <div id="convertedResult-eur"></div>
+
+          <div>
+            <div id="valYenParent01" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input id="rateEURYen" class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" value="130">
+              <label class="mdl-textfield__label" for="rateEURYen">JPY/EUR</label>
+              <span class="mdl-textfield__error">Input is not a number!</span>
+            </div>
           </div>
         </div>
       </div>
+      <footer class="footer">(c) 2021 Ryoya Kawai.</footer>
+    </article>
 
-      <!-- EUR -->
-      <div id="convertedResult-00">
-        <div id="convertedResult-eur"></div>
-
-        <div>
-          <div id="valYenParent01" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input id="rateEURYen" class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" value="130">
-            <label class="mdl-textfield__label" for="rateEURYen">JPY/EUR</label>
-            <span class="mdl-textfield__error">Input is not a number!</span>
-          </div>
-        </div>
-      </div>
-
-
-    </div>
 
     <script>
      const convertY2x = (valYen = 0, rate = 115) => {
