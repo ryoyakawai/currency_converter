@@ -177,10 +177,6 @@
        calcValueEUR()
      })
 
-     // initialize
-     calcValueUSD()
-     calcValueEUR()
-
      // adjust width
      const adjust_content_width = () => {
        const s_width = window.innerWidth
@@ -192,6 +188,12 @@
        })
      }
      window.onresize = adjust_content_width
+
+
+     // initialize
+     calcValueUSD()
+     calcValueEUR()
+     adjust_content_width()
     </script>
   </body>
 </html>
