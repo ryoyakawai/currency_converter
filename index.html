@@ -182,18 +182,16 @@
      calcValueEUR()
 
      // adjust width
-     /*
-     const s_width = document.body.clientWidth
-     const min_width = 522
-     const c_size = s_width / min_width
-     const meta = document.querySelectorAll('meta')
-     meta.forEach( (tag, key) => {
-       if (tag.name == 'viewport') {
-         meta[key].content = `width=device-width, initial-scale=${c_size}, maximum-scale=${c_size}`
-       }
-     })
-     console.log(s_width/min_width)
-     */
+     const adjust_content_width = () => {
+       const s_width = window.innerWidth
+       const meta = document.querySelectorAll('meta')
+       meta.forEach( (tag, key) => {
+         if (tag.name == 'viewport') {
+           meta[key].content = `width=${s_width}`
+         }
+       })
+     }
+     window.onresize = adjust_content_width
     </script>
   </body>
 </html>
