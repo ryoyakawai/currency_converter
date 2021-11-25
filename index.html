@@ -1,18 +1,26 @@
-<html>
+<!DOCTYPE html>
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <style>
      body {
        background: #e2e1e0;
        text-align: center;
        font-family: arial;
-       padding: 10px;
+       padding-top: 10px;
        font-size: 1.4em;
        display: flex;
        flex-direction: column;
-       justify-content: center;
        align-items: center;
+       min-width: 522px;
+     }
+     @media only screen and (max-width: 600px) {
+       div#content-parent-00 {
+         width: 200px;
+       }
      }
      div#content-parent-00 {
+       margin: 0 10px 0 10px;
        width: 500px;
        display: flex;
        flex-direction: column;
@@ -28,8 +36,12 @@
      div#valYenParent00 {
        width: 180px;
      }
+     div#valYenParent01 {
+       width: 120px;
+     }
      input#valYen,
-     input#rateUSDYen {
+     input#rateUSDYen,
+     input#rateEURYen {
        text-align:center;
      }
      select#unit {
@@ -38,19 +50,21 @@
        border-color: #ddd;
        border-radius: 3px;
      }
-     div#convertedResult {
+     div#convertedResult-00 {
+       display: flex;
+       flex-direction: row;
+       justify-content: center;
+       align-items: center;
+     }
+     div#convertedResult-usd,
+     div#convertedResult-eur {
+       width: 230px;
+       font-size: 1.8em;
        font-weight: bold;
        margin: 10px;
        padding: 15px;
        border: 1px dotted #aaa;
        border-radius: 5px;
-     }
-     div#convertedResult-00 {
-       font-size: 1.8em;
-       display: flex;
-       flex-direction: row;
-       justify-content: center;
-       align-items: center;
      }
      .error00 {
        color: #bbb
@@ -75,18 +89,33 @@
         </select>円
       </div>
 
-      <div>
-        <div id="valYenParent00" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input id="rateUSDYen" class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" value="115">
-          <label class="mdl-textfield__label" for="rateUSDYen">JPY/USD</label>
-          <span class="mdl-textfield__error">Input is not a number!</span>
+      <!-- USD -->
+      <div id="convertedResult-00">
+        <div id="convertedResult-usd"></div>
+
+        <div>
+          <div id="valYenParent01" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input id="rateUSDYen" class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" value="115">
+            <label class="mdl-textfield__label" for="rateUSDYen">JPY/USD</label>
+            <span class="mdl-textfield__error">Input is not a number!</span>
+          </div>
         </div>
-        円
       </div>
 
+      <!-- EUR -->
       <div id="convertedResult-00">
-        <div id="convertedResult"></div>
+        <div id="convertedResult-eur"></div>
+
+        <div>
+          <div id="valYenParent01" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input id="rateEURYen" class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" value="130">
+            <label class="mdl-textfield__label" for="rateEURYen">JPY/EUR</label>
+            <span class="mdl-textfield__error">Input is not a number!</span>
+          </div>
+        </div>
       </div>
+
+
     </div>
 
     <script>
@@ -94,11 +123,11 @@
        return valYen / rate
      }
      //document.querySelector('button#convert').addEventListener('mousedown', () => {
-     const calcValue = () => {
+     const calcValueUSD = () => {
        const valYen = Number(document.querySelector('input#valYen').value)
        const unit = Number(document.querySelector('select').value)
        const rateYUSD = Number(document.querySelector('input#rateUSDYen').value)
-       const converted = document.querySelector('div#convertedResult')
+       const converted = document.querySelector('div#convertedResult-usd')
        if (isNaN(valYen) || isNaN(unit) || isNaN(rateYUSD)) {
          converted.innerHTML = `(Error)`
          converted.classList.add('error00')
@@ -108,15 +137,36 @@
          converted.innerHTML = `$ ${valConv.toFixed(2)} million`
        }
      }
+     const calcValueEUR = () => {
+       const valYen = Number(document.querySelector('input#valYen').value)
+       const unit = Number(document.querySelector('select').value)
+       const rateYEUR = Number(document.querySelector('input#rateEURYen').value)
+       const converted = document.querySelector('div#convertedResult-eur')
+       if (isNaN(valYen) || isNaN(unit) || isNaN(rateYEUR)) {
+         converted.innerHTML = `(Error)`
+         converted.classList.add('error00')
+       } else {
+         converted.classList.remove('error00')
+         const valConv = Math.round(100*(convertY2x(valYen*unit, rateYEUR)/1000000))/100
+         converted.innerHTML = `€ ${valConv.toFixed(2)} million`
+       }
+     }
      document.querySelector('input#valYen').addEventListener('input', () => {
-       calcValue()
+       calcValueUSD()
+       calcValueEUR()
      })
      document.querySelector('input#rateUSDYen').addEventListener('input', () => {
-       calcValue()
+       calcValueUSD()
+       calcValueEUR()
+     })
+     document.querySelector('input#rateEURYen').addEventListener('input', () => {
+       calcValueUSD()
+       calcValueEUR()
      })
 
      // initialize
-     calcValue()
+     calcValueUSD()
+     calcValueEUR()
     </script>
   </body>
 </html>
