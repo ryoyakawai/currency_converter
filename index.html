@@ -1,7 +1,7 @@
 <!DOCTYPE html>
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" id="meta_viewport">
     <style>
      body {
        background: #e2e1e0;
@@ -179,21 +179,19 @@
 
      // adjust width
      const adjust_content_width = () => {
-       const s_width = window.innerWidth
-       const meta = document.querySelectorAll('meta')
-       meta.forEach( (tag, key) => {
-         if (tag.name == 'viewport') {
-           meta[key].content = `width=${s_width}`
-         }
-       })
+       const s_width = window.outerWidth
+       const content_width = 522
+       const meta_vp = document.querySelector('meta#meta_viewport')
+       const content_scale = s_width/content_width < 1 ? s_width/content_width : 1.0
+       meta_vp.setAttribute('content',`width=${s_width}, initial-scale=${content_scale}, maximum-scale=${content_scale}`)
      }
+     window.onload = adjust_content_width
      window.onresize = adjust_content_width
 
 
      // initialize
      calcValueUSD()
      calcValueEUR()
-     adjust_content_width()
     </script>
   </body>
 </html>
